@@ -94,6 +94,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "yanina-perez-clinica:build:production",
+            "firebaseProject": "yanina-perez-laboiv2022",
+            "firebaseHostingSite": "yanina-perez-clinica-labiv"
+          }
         }
       }
     }

@@ -1,0 +1,49 @@
+<section class="h-100">
+    <form class="container py-5 h-100" [formGroup]="userRegister">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-6">
+          <div class="card card-registration my-4">
+            <div class="row g-0">
+  <!--             <div class="col-xl-2 d-none d-xl-block image-wrapper">
+                <img src="https://images.pexels.com/photos/5752263/pexels-photo-5752263.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  alt="Sample photo" class="img-fluid"
+                  style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
+              </div> -->
+              <div class="login">
+                <div class="card-body p-md-5 text-black">
+                  <h3 class="mb-5 text-uppercase" appSeasons>Login</h3>
+  
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input id="form3Example1m" class="form-control form-control-md" type="text" formControlName="email"/>
+                        <label class="form-label" for="form3Example1m">Email</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('email')?.hasError('required') && userRegister.get('email')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input  id="form3Example1n" class="form-control form-control-md" type="password" formControlName="password"/>
+                        <label class="form-label" for="form3Example1n">Contraseña</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('password')?.hasError('required') && userRegister.get('password')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+  
+                  <div class="d-flex justify-content-end pt-3">
+                    <button type="button" class="btn btn-danger btn-md ms-2">Ingresar</button>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>

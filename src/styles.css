@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+    --accent: #f76ac8;
+    --white: #FDFDFD;
+    --primary-dark: #092e6d;
+    --primary-dark-disabled: #98a0ad;
+    --dark: #092e6d;
+    --orange: #e99f4c;
+    --peach: #FFC09F;
+    --light: #eddcd9;
+    --grey: #f2ebe9;
+    --dark-grey: #1c1c1c;
+    --sky: #00C2FF;
+    --black: #000032;
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(74,74,74,.8);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

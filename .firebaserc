@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "yanina-perez-laboiv2022"
+  },
+  "targets": {
+    "yanina-perez-laboiv2022": {
+      "hosting": {
+        "yanina-perez-clinica": [
+          "yanina-perez-clinica-labiv"
+        ]
+      }
+    }
+  }
+}
