@@ -18,6 +18,10 @@ import { UserI } from 'src/app/Entities/user-interface';
 import { SpecialtiesC } from 'src/app/Entities/specialties';
 import { UserFirestoreService } from 'src/app/Services/user-firestore.service';
 import { FirebaseCodeErrorService } from 'src/app/Services/firebase-code-error.service';
+import { AuthService } from 'src/app/Services/auth.service';
+
+import { AngularFireStorage/* , AngularFireStorageReference, AngularFireUploadTask  */ } from '@angular/fire/compat/storage';
+
 
 
 @Component({
@@ -27,11 +31,18 @@ import { FirebaseCodeErrorService } from 'src/app/Services/firebase-code-error.s
 })
 
 export class RegisterComponent implements OnInit {
+  @Input() isInAdminPage?: boolean;
+
+  /*   ref: AngularFireStorageReference | undefined;
+    task: AngularFireUploadTask | undefined;  */
+
   typeOfUser = 'patient';
   typeOfUserDisplay = 'Paciente';
   typeOfUserDisplayOther = 'Médico';
 
   specialities: Array<string>;
+
+  reader = new FileReader();
 
 
   // Forms
@@ -48,14 +59,19 @@ export class RegisterComponent implements OnInit {
   lastName: string | undefined;
   age: string | undefined;
   id: string | undefined;
-  specialty: string | undefined;
-  healthInsurance: string | undefined;
+  specialty = "";
+  healthInsurance = "";
+  photo_1: any = "";
+  photo_2:any = "";
 
-  constructor(private fb: FormBuilder, private specialtyC:  SpecialtiesC, private afAuth: AngularFireAuth,
+  file_1: File | null = null;
+
+  constructor(private fb: FormBuilder, private specialtyC: SpecialtiesC, private afAuth: AngularFireAuth,
     private router: Router, private FirebaseCodeError: FirebaseCodeErrorService,
-    private userFirestoreService: UserFirestoreService ) {
+    private userFirestoreService: UserFirestoreService, private authService: AuthService/* , 
+    private afStorage: AngularFireStorage */) {
 
-      this.specialities = specialtyC.getSpecialtiesList();
+    this.specialities = specialtyC.getSpecialtiesList();
 
     // Form validators - Register
     this.userRegister = this.fb.group({
@@ -87,16 +103,11 @@ export class RegisterComponent implements OnInit {
       })
     })
 
-    // Users in DB
-/*     this.userFirestoreService.getUsers().subscribe(users => {
-      this.usersArray = users;
-    }) */
-
   }
 
 
 
-register() {
+  register() {
     this.email = this.userRegister.value.email;
     this.password = this.userRegister.value.password;
     this.passwordRepeat = this.userRegister.value.passwordRepeat;
@@ -104,8 +115,10 @@ register() {
     this.lastName = this.userRegister.value.lastName;
     this.age = this.userRegister.value.age;
     this.id = this.userRegister.value.id;
-    this.specialty = this.userRegister.value.specialty;
+    this.specialty = this.userRegister.getRawValue().specialty;
     this.healthInsurance = this.userRegister.value.healthInsurance;
+
+
 
     if (this.password !== this.passwordRepeat) {
 
@@ -138,7 +151,7 @@ register() {
           color: "#fff"
         })
 
-        this.router.navigate(['/']);
+
 
         this.userFirestoreService.addUser({
           'type': this.typeOfUser,
@@ -148,8 +161,19 @@ register() {
           'age': this.age,
           'id': this.id,
           'specialty': this.specialty,
-          'healthInsurance': this.healthInsurance
+          'healthInsurance': this.healthInsurance,
+          'photo_1': this.photo_1,
+          'photo_2': this.photo_2,
+          'verified': false
         });// TODO - Make a function to handle this
+
+        if (this.typeOfUser === 'patient') {
+          this.authService.sendEmailVerification();
+          this.router.navigate(['/verification']);
+        } else {
+          this.router.navigate(['/']);
+        }
+
 
 
       }).catch((error) => {
@@ -157,7 +181,7 @@ register() {
 
         Swal.fire({
           title: 'Error!',
-          text: this.FirebaseCodeError.codeError(error.code),
+          text: error,
           icon: 'error',
           toast: true,
           position: 'top-end',
@@ -174,73 +198,8 @@ register() {
   }
 
 
-/*   login(): void {
-    this.email = this.userLogin.value.email;
-    this.password = this.userLogin.value.password;
-
-    this.afAuth.signInWithEmailAndPassword(this.email!, this.password!).then((user) => {
-
-      Swal.fire({
-        title: 'Usuario logueado',
-        text: "Usuario logueado con éxito",
-        icon: 'success',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        background: "#00af00",
-        iconColor: "#fff",
-        color: "#fff"
-      })
-
-      this.router.navigate(['/']);
-
-      const currentDate = new Date();// TODO - Make a function to handle this
-      const cValue = formatDate(currentDate, 'medium', 'en-US');// TODO - Make a function to handle this
-
-      const userActive = this.usersArray!.find(u => u.email === this.email); // TODO - Make a function to handle this
-
-      this.userFirestoreService.updateUser(userActive!, cValue); // TODO - Make a function to handle this
-
-      localStorage.setItem('userActive', JSON.stringify({
-        'id': userActive!.id,
-        'email': userActive!.email,
-        'points': userActive!.points,
-        'loginDate': userActive!.loginDate,
-        'userName': userActive!.userName,
-      }));// TODO - Make a function to handle this
-
-    }).catch((error) => {
-
-      Swal.fire({
-        title: 'Error!',
-        text: this.FirebaseCodeError.codeError(error.code),
-        icon: 'error',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        background: "#ff3030",
-        iconColor: "#fff",
-        color: "#fff"
-      })
-
-    });
-
-  } */
-
-
-/*   setUser(user: any) {
-    localStorage.setItem('testObject', JSON.stringify(user));
-  } */
-
-/*   autoComplete(): void {
-    this.userLogin.controls['email'].setValue("test@test.com");
-    this.userLogin.controls['password'].setValue("test123");
-  }
- */
-  toggleRegister(){
-    if(this.typeOfUser === 'patient'){
+  toggleRegister() {
+    if (this.typeOfUser === 'patient') {
       this.typeOfUser = 'doctor';
       this.typeOfUserDisplay = 'Médico';
       this.typeOfUserDisplayOther = 'Paciente';
@@ -251,6 +210,51 @@ register() {
     }
   }
 
+
+  addSpecialty(specialty: string) {
+    this.userRegister.controls['specialty'].setValue(specialty);
+  }
+
+  adminRegister() {
+    this.typeOfUser = 'admin';
+    this.typeOfUserDisplay = 'Administrador';
+  }
+
+  async encodeImage_1(e: any) {
+    if (e.target.files.length > 0) {
+      this.file_1 = e.target.files[0];
+    }
+
+    this.parseImgBase64(this.file_1).then((data) => {
+      this.photo_1 = data;
+    })
+   
+  }
+
+  async encodeImage_2(e: any) {
+    if (e.target.files.length > 0) {
+      this.file_1 = e.target.files[0];
+    }
+
+    this.parseImgBase64(this.file_1).then((data) => {
+      this.photo_2 = data;
+    })
+   
+  }
+
+  parseImgBase64(file:any){
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onloadend = () => {
+        resolve(reader.result);
+      }
+
+    })
+  }
+  
 
 }
 

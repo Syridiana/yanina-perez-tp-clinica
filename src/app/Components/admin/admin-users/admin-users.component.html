@@ -1,0 +1,35 @@
+<div class="container py-5">
+    <hr class="my-5">
+    <h2>Gestión Especialistas</h2>
+    <hr class="my-5">
+  
+    <div class="row">
+        <div class="col-sm-6 col-lg-6 mb-6">
+            <h3>Especialistas activos</h3>    
+            <hr class="my-5">
+          <div class="col-sm-12 col-lg-12 mb-12 medic-card"  *ngFor="let activeDoctor of doctorsArrayActive" (click)="inactivateDoctor(activeDoctor.uid)">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{activeDoctor.name}} {{activeDoctor.lastName}}</h5>
+                <p class="card-text">Especialidad: {{activeDoctor.specialty}} - Mail: {{activeDoctor.email}}</p>
+                <p class="card-text"><small class="text-muted">DNI: {{activeDoctor.id}} - Edad: {{activeDoctor.age}}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-6 mb-6">
+            <h3>Especialistas inactivos</h3>    
+            <hr class="my-5">
+          <div class="col-sm-12 col-lg-12 mb-12 medic-card" *ngFor="let inactiveDoctor of doctorsArrayInactive"  (click)="activateDoctor(inactiveDoctor.uid)">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{inactiveDoctor.name}} {{inactiveDoctor.lastName}}</h5>
+                <p class="card-text">Especialidad: {{inactiveDoctor.specialty}} - Mail: {{inactiveDoctor.email}}</p>
+                <p class="card-text"><small class="text-muted">DNI: {{inactiveDoctor.id}} - Edad: {{inactiveDoctor.age}}</small></p>
+              </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  
+</div>

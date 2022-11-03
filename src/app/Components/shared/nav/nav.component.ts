@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-/* import { AngularFireAuth } from '@angular/fire/compat/auth'; */
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-/* import UserInterface from 'src/app/Entities/user-interface';
-import { UserFirestoreService } from 'src/app/Services/user-firestore-service.service'; */
+import { UserI } from 'src/app/Entities/user-interface';
+
 import Swal from 'sweetalert2';
 /* import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'; */
+import { UserFirestoreService } from 'src/app/Services/user-firestore.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,29 +13,37 @@ import Swal from 'sweetalert2';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-/*   public currentUserEmail: any;
+  public currentUserEmail: any;
+  public currentUserName!: any | null;
   public currentUser!: any | null;
-  public userName: string | any; */
-/*   usersArray: UserInterface[] | undefined; */
-/*   public mobile = false;
-  public burger = false; */
+  public currentUserLastName!: any | null;
+  public userType: string | any;
+  usersArray: UserI[] | undefined;
 
-  constructor(/* private angularFireAuth: AngularFireAuth, private routes: Router *//* , 
-    private userFirestoreService: UserFirestoreService, private responsive: BreakpointObserver */) {
+  constructor(private angularFireAuth: AngularFireAuth, private routes: Router , 
+    private userFirestoreService: UserFirestoreService/* , private responsive: BreakpointObserver */) {
 
-/*     this.angularFireAuth.onAuthStateChanged((user) => {
+    this.angularFireAuth.onAuthStateChanged((user) => {
       if (user) {
         this.currentUserEmail = user.email;
+      } else {
+        this.currentUserEmail = "";
+        this.userType = "";
       }
       this.userFirestoreService.getUsers().subscribe(users => {
         this.usersArray = users;
-        this.userName = (this.usersArray?.find(u => u.email === this.currentUserEmail))?.userName;
+        this.currentUser = this.usersArray?.find(u => u.email === this.currentUserEmail);
+        this.userType = this.currentUser?.type;
+        this.currentUserName = this.currentUser?.name;
+        this.currentUserLastName = this.currentUser?.lastName;
       })
-    }) */
-    /* 
+
+      localStorage.setItem('currentUserType', this.userType);
+    }) 
+    
         this.userFirestoreService.getUsers().subscribe(users => {
           this.usersArray = users;
-        }) */
+        })
   }
 
   ngOnInit(): void {
@@ -61,10 +70,10 @@ export class NavComponent implements OnInit {
   }
 
   SignOut() {
-   /*  this.angularFireAuth
+    this.angularFireAuth
       .signOut();
     this.currentUserEmail = "";
-    this.userName = "";
+    this.userType = "";
 
     Swal.fire({
       title: 'Adios!',
@@ -84,7 +93,7 @@ export class NavComponent implements OnInit {
     if (window.matchMedia("(max-width: 768px)").matches) {
       this.openMenu();
     }
- */
+
 
 
   }

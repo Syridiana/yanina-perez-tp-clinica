@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +10,6 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 
 import { RegisterComponent } from './Components/register/register.component';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SeasonsDirective } from './Directives/seasons.directive';
 import { SeasonsHoverDirective } from './Directives/seasons-hover.directive';
 import { SeasonsKeyboardDirective } from './Directives/seasons-keyboard.directive';
@@ -22,6 +20,14 @@ import { HomeComponent } from './Views/home/home.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { SpinnerComponent } from './Components/shared/spinner/spinner.component';
 import { ImageLoadingDirective } from './Directives/image-loading.directive';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { SpecialityListComponent } from './Components/shared/speciality-list/speciality-list.component';
+import { VerificationEmailComponent } from './Components/verification-email/verification-email.component';
+import { AdminUsersComponent } from './Components/admin/admin-users/admin-users.component';
+import { CreateUserComponent } from './Components/admin/create-user/create-user.component';
+
+
 
 @NgModule({
   declarations: [
@@ -34,7 +40,15 @@ import { ImageLoadingDirective } from './Directives/image-loading.directive';
     LoginComponent,
     HomeComponent,
     SpinnerComponent,
-    ImageLoadingDirective
+    ImageLoadingDirective,
+    SpecialityListComponent,
+    SpecialityListComponent,
+    VerificationEmailComponent,
+    AdminUsersComponent,
+    CreateUserComponent
+  ],
+  exports: [ 
+    RegisterComponent
   ],
   imports: [
     FormsModule,
@@ -43,10 +57,7 @@ import { ImageLoadingDirective } from './Directives/image-loading.directive';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
-    
+    provideFirestore(() => getFirestore())
   ],
   providers: [
     SpecialtiesC

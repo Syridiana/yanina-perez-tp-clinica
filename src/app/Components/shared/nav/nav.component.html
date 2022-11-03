@@ -9,26 +9,34 @@
           <a class="nav-link" routerLink="">Home</a>
         </li>
         <li class="nav-item collapse-item">
-          <a class="nav-link" routerLink="register">Regitro Usuarios</a>
+          <a class="nav-link" routerLink="register" *ngIf="!currentUserEmail">Regitro Usuarios</a>
         </li>
         <li class="nav-item collapse-item">
-          <a class="nav-link" routerLink="login">Login</a>
+          <a class="nav-link" routerLink="login" *ngIf="!currentUserEmail">Login</a>
         </li>
-        <!--         <li class="nav-item collapse-item">
-          <a class="nav-link" routerLink="register-doctor">Registro Médicos</a>
-        </li> -->
-        <!--       <li class="nav-item collapse-item">
-          <a class="nav-link" routerLink="login" *ngIf="currentUserEmail && !mobile" (click)="SignOut()">Logout</a>
+        <li class="nav-item collapse-item">
+          <a class="nav-link" routerLink="admin/especialistas" *ngIf="currentUserEmail && userType === 'admin'">Gestión especialistas</a>
         </li>
+        <li class="nav-item collapse-item">
+          <a class="nav-link" routerLink="admin/new/users" *ngIf="currentUserEmail && userType === 'admin'">Crear usuarios</a>
+        </li>
+        <li class="nav-item collapse-item">
+          <a class="nav-link" routerLink="admin/users" *ngIf="currentUserEmail && userType === 'admin'">Ver usuarios</a>
+        </li>
+        <li class="nav-item collapse-item">
+          <a class="nav-link" routerLink="login" *ngIf="currentUserEmail" (click)="SignOut()">Logout</a>
+        </li>
+        <!-- 
         <li class="nav-item collapse-item">
           <a class="nav-link" aria-current="page" *ngIf="!mobile" routerLink="games" (click)="closeMenu()">Juegos</a>
         </li>
         <li class="nav-item collapse-item">
           <a class="nav-link" aria-current="page" *ngIf="currentUserEmail  && !mobile" routerLink="scores" (click)="closeMenu()">Scores</a>
-        </li>
+        </li> -->
         <li class="nav-item collapse-item">
-          <a class="nav-link" aria-current="page" *ngIf="currentUserEmail && !mobile" disabled>Nombre usuario: {{ userName }}</a>
+          <a class="nav-link" aria-current="page" *ngIf="currentUserEmail" disabled>Bienvenido: {{ currentUserName }} {{ currentUserLastName }}</a>
         </li>
+        <!--
         <li class="nav-item collapse-item">
           <a class="nav-link" aria-current="page" *ngIf="currentUserEmail  && !mobile" routerLink="chat" (click)="closeMenu()">Chat</a>
         </li>

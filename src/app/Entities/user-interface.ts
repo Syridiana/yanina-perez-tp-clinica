@@ -8,4 +8,7 @@ export interface UserI {
     id: string | undefined;
     specialty?: string | undefined;
     healthInsurance?:string|undefined;
+    photo_1?:string|undefined;
+    photo_2?:string|undefined;
+    verified?: boolean;
 }

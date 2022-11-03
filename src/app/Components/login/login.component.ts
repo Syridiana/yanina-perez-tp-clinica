@@ -6,10 +6,9 @@ import { formatDate } from '@angular/common';
 
 // Alerts
 import Swal from 'sweetalert2';
-/* import { FirebaseCodeErrorService } from 'src/app/Services/firebase-code-error.service'; */
+import { FirebaseCodeErrorService } from 'src/app/Services/firebase-code-error.service';
 
 // BD and Auth
-/* import { UserFirestoreService } from 'src/app/Services/user-firestore-service.service'; */
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 
 // Interfaces
@@ -27,6 +26,9 @@ export class LoginComponent implements OnInit {
   typeOfUser = 'patient';
   typeOfUserDisplay = 'Paciente';
   typeOfUserDisplayOther = 'Médico';
+  currentUserEmail: any;
+  currentUser: any;
+  userType: any;
 
   specialities: Array<string>;
 
@@ -45,12 +47,12 @@ export class LoginComponent implements OnInit {
   name: string | undefined;
 
 
-  constructor(private fb: FormBuilder, private specialty:  SpecialtiesC,
-     private afAuth: AngularFireAuth, 
-    private router: Router, /* private FirebaseCodeError: FirebaseCodeErrorService,*/
-    private userFirestoreService: UserFirestoreService ) {
+  constructor(private fb: FormBuilder, private specialty: SpecialtiesC,
+    private afAuth: AngularFireAuth,
+    private router: Router, private FirebaseCodeError: FirebaseCodeErrorService,
+    private userFirestoreService: UserFirestoreService) {
 
-      this.specialities = specialty.getSpecialtiesList();
+    this.specialities = specialty.getSpecialtiesList();
 
     // Form validators - Register
     this.userRegister = this.fb.group({
@@ -74,6 +76,22 @@ export class LoginComponent implements OnInit {
     });
 
 
+    this.afAuth.onAuthStateChanged((user) => {
+      if (user) {
+        this.currentUserEmail = user.email;
+      }
+      this.userFirestoreService.getUsers().subscribe(users => {
+        this.usersArray = users;
+        this.currentUser = this.usersArray?.find(u => u.email === this.currentUserEmail);
+        this.userType = this.currentUser?.type;
+      })
+    })
+
+    this.userFirestoreService.getUsers().subscribe(users => {
+      this.usersArray = users;
+    })
+
+
   }
 
   ngOnInit(): void {
@@ -87,97 +105,47 @@ export class LoginComponent implements OnInit {
       })
     })
 
+
     // Users in DB
-/*      this.userFirestoreService.getUsers().subscribe(users => {
+    this.userFirestoreService.getUsers().subscribe(users => {
       this.usersArray = users;
-    })  */
+    })
 
   }
 
 
 
-/* register() {
-    this.email = this.userRegister.value.email;
-    this.password = this.userRegister.value.password;
-    this.passwordRepeat = this.userRegister.value.passwordRepeat;
-    this.name = this.userRegister.value.name;
 
-    if (this.password !== this.passwordRepeat) {
-
-      Swal.fire({
-        title: 'Error!',
-        text: "Las contraseñas no coindicen",
-        icon: 'error',
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        background: "#ff3030",
-        iconColor: "#fff",
-        color: "#fff"
-      })
-
-    } else {
-      this.afAuth.createUserWithEmailAndPassword(this.email!, this.password!).then((user) => {
-
-        Swal.fire({
-          title: 'Usuario registrado',
-          text: "Usuario registrado con éxito",
-          icon: 'success',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2000,
-          background: "#00af00",
-          iconColor: "#fff",
-          color: "#fff"
-        })
-
-        this.router.navigate(['/']);
-
-        const currentDate = new Date();// TODO - Make a function to handle this
-        const cValue = formatDate(currentDate, 'medium', 'en-US');// TODO - Make a function to handle this
-        this.userFirestoreService.addUser({
-          'email': this.email,
-          'points': 0,
-          'loginDate': cValue,
-          'userName': this.name,
-        });// TODO - Make a function to handle this
-
-        localStorage.setItem('userActive', JSON.stringify({
-          'email': this.email,
-          'points': 0,
-          'loginDate': cValue,
-          'userName': this.name,
-        }));// TODO - Make a function to handle this
-
-
-      }).catch((error) => {
-        console.log(error)
-
-        Swal.fire({
-          title: 'Error!',
-          text: this.FirebaseCodeError.codeError(error.code),
-          icon: 'error',
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 2000,
-          background: "#ff3030",
-          iconColor: "#fff",
-          color: "#fff"
-        })
-
-      });
-    }
-
-  } */
-
-/*   login(): void {
+  login(): void {
     this.email = this.userLogin.value.email;
     this.password = this.userLogin.value.password;
 
     this.afAuth.signInWithEmailAndPassword(this.email!, this.password!).then((user) => {
+
+      let aUser = this.usersArray?.find(u => u.email === this.email);
+
+      if (aUser?.type === 'doctor') {
+        if (!aUser?.verified) {
+          this.afAuth.signOut();
+          this.currentUser = undefined;
+          throw new Error('Usuario no habilitado. Comuniquese con el administrador');
+        } else {
+          this.router.navigate(['/']);
+        }
+      } else if (aUser?.type === 'patient') {
+        if (user && user.user?.emailVerified) {
+          this.router.navigate(['/']);
+        } else if (user) {
+          this.router.navigate(['/verification']);
+          throw new Error('Email sin verificar. Revise su email para verificar este usuario');
+        }
+      } else if (!user) {
+        this.router.navigate(['/register']);
+        throw new Error('Usuario sin registrar. Por favor registre su usuario');
+      } else {
+        this.router.navigate(['/']);
+      }
+
 
       Swal.fire({
         title: 'Usuario logueado',
@@ -192,28 +160,11 @@ export class LoginComponent implements OnInit {
         color: "#fff"
       })
 
-      this.router.navigate(['/']);
-
-      const currentDate = new Date();// TODO - Make a function to handle this
-      const cValue = formatDate(currentDate, 'medium', 'en-US');// TODO - Make a function to handle this
-
-      const userActive = this.usersArray!.find(u => u.email === this.email); // TODO - Make a function to handle this
-
-      this.userFirestoreService.updateUser(userActive!, cValue); // TODO - Make a function to handle this
-
-      localStorage.setItem('userActive', JSON.stringify({
-        'id': userActive!.id,
-        'email': userActive!.email,
-        'points': userActive!.points,
-        'loginDate': userActive!.loginDate,
-        'userName': userActive!.userName,
-      }));// TODO - Make a function to handle this
-
     }).catch((error) => {
 
       Swal.fire({
         title: 'Error!',
-        text: this.FirebaseCodeError.codeError(error.code),
+        text: error,
         icon: 'error',
         toast: true,
         position: 'top-end',
@@ -226,20 +177,30 @@ export class LoginComponent implements OnInit {
 
     });
 
-  } */
-
-
-/*   setUser(user: any) {
-    localStorage.setItem('testObject', JSON.stringify(user));
-  } */
-
-  autoComplete(): void {
-    this.userLogin.controls['email'].setValue("test@test.com");
-    this.userLogin.controls['password'].setValue("test123");
   }
 
-  toggleRegister(){
-    if(this.typeOfUser === 'patient'){
+
+  /*   setUser(user: any) {
+      localStorage.setItem('testObject', JSON.stringify(user));
+    } */
+
+  autoCompleteAdmin(): void {
+    this.userLogin.controls['email'].setValue("admin1@admin.com");
+    this.userLogin.controls['password'].setValue("123456");
+  }
+
+  autoCompletePatient1(): void {
+    this.userLogin.controls['email'].setValue("hvjjgjuirqlbajfqyt@tmmwj.net");
+    this.userLogin.controls['password'].setValue("123456");
+  }
+
+  autoCompleteDoctor1(): void {
+    this.userLogin.controls['email'].setValue("doctor1@doctor.com");
+    this.userLogin.controls['password'].setValue("123456");
+  }
+
+  toggleRegister() {
+    if (this.typeOfUser === 'patient') {
       this.typeOfUser = 'doctor';
       this.typeOfUserDisplay = 'Médico';
       this.typeOfUserDisplayOther = 'Paciente';
