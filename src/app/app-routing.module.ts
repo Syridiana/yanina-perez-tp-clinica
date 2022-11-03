@@ -6,6 +6,7 @@ import { VerificationEmailComponent } from './Components/verification-email/veri
 import { AdminGuard } from './guards/admin-guard.guard';
 import { HomeComponent } from './Views/home/home.component';
 import { redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
+import { AppointmentsComponent } from './Components/appointments/appointments.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/']);
 
@@ -21,6 +22,7 @@ const routes: Routes = [
     canActivate: [AdminGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
+  { path: 'appointments', component: AppointmentsComponent },
 ];
 
 @NgModule({

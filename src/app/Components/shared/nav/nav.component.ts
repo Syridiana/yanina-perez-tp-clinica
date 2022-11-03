@@ -36,9 +36,11 @@ export class NavComponent implements OnInit {
         this.userType = this.currentUser?.type;
         this.currentUserName = this.currentUser?.name;
         this.currentUserLastName = this.currentUser?.lastName;
+
+        localStorage.setItem('currentUserType', this.userType);
       })
 
-      localStorage.setItem('currentUserType', this.userType);
+
     }) 
     
         this.userFirestoreService.getUsers().subscribe(users => {

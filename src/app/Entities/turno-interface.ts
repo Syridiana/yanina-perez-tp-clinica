@@ -1,13 +1,15 @@
+import { Timestamp } from "@angular/fire/firestore";
+
 export interface TurnoI {
   uid?: string;
   doctorEmail: string | undefined;
   patientEmail: string | undefined;
   patientName: string | undefined;
   doctorName: string | undefined;
-  date : string | undefined;
+  date : Timestamp | undefined;
   specialty: string | undefined;
   state: string | undefined;
-  patientReview: string | undefined;
+  review: string | undefined;
   patientSurvey: string | undefined;
   patientQualification: string | undefined;
 

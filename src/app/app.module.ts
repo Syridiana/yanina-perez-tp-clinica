@@ -26,8 +26,11 @@ import { SpecialityListComponent } from './Components/shared/speciality-list/spe
 import { VerificationEmailComponent } from './Components/verification-email/verification-email.component';
 import { AdminUsersComponent } from './Components/admin/admin-users/admin-users.component';
 import { CreateUserComponent } from './Components/admin/create-user/create-user.component';
+import { AppointmentsComponent } from './Components/appointments/appointments.component';
+import { registerLocaleData } from '@angular/common';
+import localeEsAr from '@angular/common/locales/es-AR';
 
-
+registerLocaleData(localeEsAr, 'es-Ar');
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { CreateUserComponent } from './Components/admin/create-user/create-user.
     SpecialityListComponent,
     VerificationEmailComponent,
     AdminUsersComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    AppointmentsComponent
   ],
   exports: [ 
     RegisterComponent

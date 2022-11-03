@@ -4,7 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "public",
+    "target": "yanina-perez-clinica",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
