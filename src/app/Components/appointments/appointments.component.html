@@ -8,16 +8,16 @@
           <ul class="nav flex-column">
             <li class="nav-item" *ngIf="currentUserType == 'patient' || currentUserType == 'admin'">
                 <label>Por Médico</label>
-              <input type="text">
+              <input type="text" [(ngModel)]="filterDoctor">
             </li>
             <li class="nav-item" *ngIf="currentUserType == 'doctor'">
                 <label>Por Paciente</label>
-              <input type="text">
+              <input type="text" [(ngModel)]="filterPatient">
             </li>
             <br><br>
             <li class="nav-item">
                 <label>Por Especialidad</label>
-              <input type="text">
+              <input type="text" [(ngModel)]="filterSpecialty">
             </li>
           </ul>
 
@@ -52,18 +52,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let appoint of userAppList">
+              <tr *ngFor="let appoint of userAppList | filterDoctor: filterDoctor | filterPatient: filterPatient | filterSpecialty:  filterSpecialty">
                 <td>{{appoint.date?.toDate() | date: 'short'}}</td>
                 <td>{{appoint.specialty}}</td>
                 <td *ngIf="currentUserType == 'doctor'">{{appoint.patientName}}</td>
                 <td *ngIf="currentUserType == 'patient'">{{appoint.doctorName}}</td>
-                <td>{{appoint.state}}</td>
-                <td><button class="btn btn-danger" *ngIf="( appoint.state == 'aceptado' && currentUserType == 'patient') 
-                    || ( appoint.state == 'pendiente' && currentUserType == 'patient') || currentUserType == 'admin'">
+                <td>{{appoint.state | titlecase}}</td>
+                <td><button [attr.data-appointment-uid]="appoint.uid" class="btn btn-danger" *ngIf="( appoint.state == 'aceptado' && currentUserType == 'patient') 
+                    || ( appoint.state == 'pendiente' && currentUserType == 'patient') || currentUserType == 'admin'" (click)="cancel($event)">
                     Cancelar turno</button></td>
-                <td><button class="btn btn-primary" *ngIf="appoint.review">Ver reseña</button></td>
+                <td><button class="btn btn-primary" *ngIf="appoint.review" (click)="showReview($event)" [attr.data-appointment-uid]="appoint.uid">Ver reseña</button></td>
                 <td><button class="btn btn-primary" *ngIf="appoint.review && appoint.state == 'realizado'">Completar encuesta</button></td>
-                <td><button class="btn btn-primary" *ngIf="appoint.state == 'realizado'">Calificar atención</button></td>
+                <td><button class="btn btn-primary" *ngIf="appoint.state == 'realizado'" (click)="qualify($event)" [attr.data-appointment-uid]="appoint.uid" >Calificar atención</button></td>
                 <td><button class="btn btn-warning" *ngIf="currentUserType == 'doctor' && appoint.state == 'pendiente'">Rechazar</button></td>
                 <td><button class="btn btn-warning" *ngIf="currentUserType == 'doctor' && appoint.state == 'pendiente'">Aceptar</button></td>
                 <td><button class="btn btn-warning" *ngIf="currentUserType == 'doctor' && appoint.state == 'aceptado'">Finalizar</button></td>

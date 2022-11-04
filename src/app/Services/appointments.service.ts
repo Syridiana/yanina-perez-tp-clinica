@@ -20,4 +20,21 @@ export class AppointmentsService {
     const apRef = collection(getFirestore(), 'turnos');
     return collectionData(apRef, { idField : 'uid' }) as Observable<TurnoI[]>;
   }
+
+  changeAppointmentState(uid: string, state: string){
+    const userDocRef = doc(getFirestore(), `turnos/${uid}`);
+    return updateDoc(userDocRef, { state: state });
+  }
+
+  addQualification(uid: string, qualifcation: string){
+    const userDocRef = doc(getFirestore(), `turnos/${uid}`);
+    return updateDoc(userDocRef, { patientQualification: qualifcation });
+  }
+
+
+  addComment(uid: string, comment: string){
+    const userDocRef = doc(getFirestore(), `turnos/${uid}`);
+    return updateDoc(userDocRef, { review: comment });
+  }
+  
 }

@@ -29,6 +29,10 @@ import { CreateUserComponent } from './Components/admin/create-user/create-user.
 import { AppointmentsComponent } from './Components/appointments/appointments.component';
 import { registerLocaleData } from '@angular/common';
 import localeEsAr from '@angular/common/locales/es-AR';
+import { FilterPipe } from './Pipes/filter.pipe';
+import { FilterPipePatient } from './Pipes/filterPatient.pipe';
+import { FilterPipeSpecialty } from './Pipes/filterSpecialty.pipe';
+import { AddAppointmentComponent } from './Components/appointments/add-appointment/add-appointment.component';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 
@@ -49,7 +53,11 @@ registerLocaleData(localeEsAr, 'es-Ar');
     VerificationEmailComponent,
     AdminUsersComponent,
     CreateUserComponent,
-    AppointmentsComponent
+    AppointmentsComponent,
+    FilterPipe,
+    FilterPipePatient,
+    FilterPipeSpecialty,
+    AddAppointmentComponent
   ],
   exports: [ 
     RegisterComponent
