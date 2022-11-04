@@ -11,4 +11,6 @@ export interface UserI {
     photo_1?:string|undefined;
     photo_2?:string|undefined;
     verified?: boolean;
+    startShift?: string | undefined;
+    endShift?: string | undefined;
 }
