@@ -8,6 +8,7 @@ import { HomeComponent } from './Views/home/home.component';
 import { redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { AppointmentsComponent } from './Components/appointments/appointments.component';
 import { AddAppointmentComponent } from './Components/appointments/add-appointment/add-appointment.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/']);
 
@@ -24,7 +25,8 @@ const routes: Routes = [
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   { path: 'appointments', component: AppointmentsComponent },
-  { path: 'addAppointment', component: AddAppointmentComponent }
+  { path: 'addAppointment', component: AddAppointmentComponent },
+  { path: 'profile', component: ProfileComponent }
 ];
 
 @NgModule({

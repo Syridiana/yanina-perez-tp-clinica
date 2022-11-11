@@ -10,11 +10,13 @@ export class HomeComponent implements OnInit {
 
   constructor(private spinnerService: SpinnerService) { 
     this.spinnerService.show();
-
-    setTimeout(function () {spinnerService.hide()}, 2000)
   }
 
   ngOnInit(): void {
+  }
+
+  hideSpinner(){
+    this.spinnerService.hide();
   }
 
 }

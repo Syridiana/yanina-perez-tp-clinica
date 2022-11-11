@@ -33,6 +33,8 @@ import { FilterPipe } from './Pipes/filter.pipe';
 import { FilterPipePatient } from './Pipes/filterPatient.pipe';
 import { FilterPipeSpecialty } from './Pipes/filterSpecialty.pipe';
 import { AddAppointmentComponent } from './Components/appointments/add-appointment/add-appointment.component';
+import { ProfileComponent } from './Components/profile/profile.component';
+import { ClassSelectorDirective } from './Directives/class-selector.directive';
 
 registerLocaleData(localeEsAr, 'es-Ar');
 
@@ -57,7 +59,9 @@ registerLocaleData(localeEsAr, 'es-Ar');
     FilterPipe,
     FilterPipePatient,
     FilterPipeSpecialty,
-    AddAppointmentComponent
+    AddAppointmentComponent,
+    ProfileComponent,
+    ClassSelectorDirective
   ],
   exports: [ 
     RegisterComponent

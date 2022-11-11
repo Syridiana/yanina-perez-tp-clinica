@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { TurnoI } from 'src/app/Entities/turno-interface';
 import { AppointmentsService } from 'src/app/Services/appointments.service';
+import { SpinnerService } from 'src/app/Services/spinner.service';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -21,7 +22,8 @@ export class AppointmentsComponent implements OnInit {
   filterPatient: string = '';
   filterSpecialty: string = '';
 
-  constructor(private appSvc: AppointmentsService, private angularFireAuth: AngularFireAuth) {
+  constructor(private appSvc: AppointmentsService, private angularFireAuth: AngularFireAuth, private spinnerService: SpinnerService) {
+    this.spinnerService.show();
 
     this.angularFireAuth.onAuthStateChanged((user) => {
       this.currentUserType = localStorage.getItem('currentUserType');
@@ -38,8 +40,9 @@ export class AppointmentsComponent implements OnInit {
             this.userAppList = this.appList?.filter(u => u.patientEmail === this.currentUserEmail);
           }
         }
+        this.spinnerService.hide();
       })
-
+      
     })
   }
 
