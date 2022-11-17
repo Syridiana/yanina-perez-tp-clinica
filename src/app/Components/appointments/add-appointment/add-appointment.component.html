@@ -41,7 +41,7 @@
         </ul>
       </div>
     </nav>
-    <nav id="sidebarMenu" class="col-md-8 col-lg-8 d-md-block bg-light sidebar collapse" *ngIf="selectedDoctorEmail 
+    <nav id="sidebarMenu" class="col-md-6 col-lg-6 d-md-block bg-light sidebar collapse" *ngIf="selectedDoctorEmail 
     && (this.userType === 'patient' || this.selectedUserEmail)">
       <app-select-turno [doctorEmail]="selectedDoctorEmail" [doctorFullName]="selectedDoctorFullName" [specialty]="selectedSpecialty"
       [selectedUserFullName]="selectedUserFullName" [selectedUserEmail]="selectedUserEmail"></app-select-turno>

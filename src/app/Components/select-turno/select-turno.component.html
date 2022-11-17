@@ -5,9 +5,13 @@
     <ul class="container">
       <li class="nav-item" *ngFor="let app of currentSchedule">
         <div  class="btn btn-primary" (click)="selectApp(app)">
-          {{app.date | date:'EEEE dd MMMM' | titlecase }}
+          {{app.date | date:'EEEE dd/mm' | titlecase }}
           <br>
           {{app.hour}}hs
+          <br>
+          {{doctorFullName}}
+          <br>
+          {{specialty}}
         </div>
       </li>
     </ul>
