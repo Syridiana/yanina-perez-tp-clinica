@@ -94,7 +94,7 @@
                     <div class="form-outline">
                       <input class="form-control form-control-md" type="password" formControlName="passwordRepeat"/>
                       <label class="form-label" for="form3Example99">Repetir contraseña</label>
-                      <span class="text-danger form-small-text" *ngIf="userRegister.get('password')?.hasError('required') && userRegister.get('password')?.touched">
+                      <span class="text-danger form-small-text" *ngIf="userRegister.get('passwordRepeat')?.hasError('required') && userRegister.get('passwordRepeat')?.touched">
                         -- Este campo es requerido.
                       </span>
                     </div>
@@ -114,7 +114,7 @@
                   </div>
                   <div class="col-md-6 mb-2" *ngIf="this.typeOfUser === 'patient'">
                     <div class="form-outline">
-                      <input  class="form-control form-control-md" type="file" formControlName="passwordRepeat" accept=".png,.jpg" name="photo_2"
+                      <input  class="form-control form-control-md" type="file" formControlName="photo_2" accept=".png,.jpg" name="photo_2"
                       (change)="encodeImage_2($event)"/>
                       <img src="{{photo_2}}" alt="" *ngIf="photo_2" class="photo">
                       <label class="form-label" for="form3Example99">Imagen de perfil 2</label>

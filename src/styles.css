@@ -25,3 +25,14 @@
     align-items: center;
     justify-content: center;
 }
+
+
+.btn-primary{
+    background-color: var(--primary-dark)!important;
+    color: var(--white)!important;
+    border: none!important;
+}
+
+.btn-primary:hover{
+    background-color: var(--accent)!important;
+}
