@@ -36,3 +36,14 @@
 .btn-primary:hover{
     background-color: var(--accent)!important;
 }
+
+.btn-warning{
+    background-color: var(--orange)!important;
+    color: var(--black)!important;
+    border: none!important;
+}
+
+.btn-warning:hover{
+    background-color: var(--peach)!important;
+}
+
