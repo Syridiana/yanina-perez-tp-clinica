@@ -43,6 +43,7 @@ import { HistoricaClinicaComponent } from './Components/historica-clinica/histor
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InformesComponent } from './Components/admin/informes/informes.component';
 import { MyChartComponent } from './utils/my-chart/my-chart.component';
+import { UserHistoriaClinicaComponent } from './Components/user-historia-clinica/user-historia-clinica.component';
 
 
 registerLocaleData(localeEsAr, 'es-Ar');
@@ -76,7 +77,8 @@ registerLocaleData(localeEsAr, 'es-Ar');
     SelectTurnoComponent,
     HistoricaClinicaComponent,
     InformesComponent,
-    MyChartComponent
+    MyChartComponent,
+    UserHistoriaClinicaComponent
   ],
   exports: [ 
     RegisterComponent

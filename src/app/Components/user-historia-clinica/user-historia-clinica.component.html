@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <h2>Mi Historia Clínica</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Especialidad</th>
+                            <th scope="col">Médico</th>
+                            <th scope="col">Altura</th>
+                            <th scope="col">Peso</th>
+                            <th scope="col">Presión</th>
+                            <th scope="col">Temperatura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let hist of historias">
+                            <td>{{hist.specialty}}</td>
+                            <td>{{hist.doctorEmail}}</td>
+                            <td>{{hist.altura}}</td>
+                            <td>{{hist.peso}}</td>
+                            <td>{{hist.presion}}</td>
+                            <td>{{hist.temperatura}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>

@@ -11,4 +11,5 @@
         <p class="reset">Edad: {{currentUser?.age}}</p>
     </div>
     <app-schedule *ngIf="currentUser?.type == 'doctor'" [doctorEmail]="currentUserEmail"></app-schedule>
+    <app-user-historia-clinica *ngIf="currentUser?.type == 'patient'" [userEmail]="currentUserEmail"></app-user-historia-clinica>
 </div>
