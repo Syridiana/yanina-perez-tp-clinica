@@ -1,9 +1,14 @@
 <br><br><br><br>
-<button>Informe Logs de Usuarios</button>
+<button (click)="generateLogGraphic()">Informe Logs de Usuarios</button>
 <button>Informe Turnos por Especialidad</button>
-<button>Informe Turnos Finalizados por Médico</button>
+<button (click)="generateDoctorGraphic()">Informe Turnos Finalizados por Médico</button>
 
-
+<br>
+<br>
 <div id="divChart">
     <canvas id="myChart"></canvas>
+    <br>
+    <br>
+    <button (click)="descargar()">Descargar como PDF</button>
+
 </div>
