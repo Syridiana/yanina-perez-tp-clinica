@@ -22,7 +22,7 @@ export class AppointmentsService {
     return collectionData(apRef, { idField: 'uid' }) as Observable<TurnoI[]>;
   }
 
-  changeAppointmentState(uid: string, state: string) {
+  changeAppointmentState(uid: any, state: string) {
     const userDocRef = doc(getFirestore(), `turnos/${uid}`);
     return updateDoc(userDocRef, { state: state });
   }
@@ -38,26 +38,16 @@ export class AppointmentsService {
     return updateDoc(userDocRef, { review: comment });
   }
 
-  /*   async addHorarios(uid: string, horario: string, day: string, doctorEmail: string) {
-      const ref = collection(getFirestore(), "turnos-disponibles");
-  
-      const q = query(ref, where("emailDoctor", "==", doctorEmail));
-      
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc2) => {
-        console.log(doc2.id, " => ", doc2.data());
-        const userDocRef = doc(getFirestore(), `turnos-disponibles/${doc2.id}`);
-        switch(day){
-          case 'monday':
-            updateDoc(userDocRef, { monday: qualifcation });
-            break;
-        }
-        
-      });
-  
-      const docRef = doc(getFirestore(), `turnos-disponibles/${uid}`);
-      const userDocRef = doc(getFirestore(), `turnos-disponibles/${uid}`);
-    } */
+  addDiagosis(uid: any, comment: string) {
+    const userDocRef = doc(getFirestore(), `turnos/${uid}`);
+    return updateDoc(userDocRef, { doctorReview: comment });
+  }
+
+  addTurno(turno: TurnoI) {
+    const userRef = collection(getFirestore(), 'turnos');
+    return addDoc(userRef, turno);
+  }
+
 
 
   getHorarios() {
@@ -65,15 +55,7 @@ export class AppointmentsService {
     return collectionData(apRef, { idField: 'uid' }) as Observable<HorarioI[]>;
   }
 
-  addHorarios(horario: HorarioI) {
-    const userDocRef = doc(getFirestore(), `turnos-disponibles/${horario.uid}`);
-    return updateDoc(userDocRef, {
-      emailDoctor: horario.emailDoctor,
-      agenda: horario.agenda
-    });
-  }
-
-  addAgendaNuevoMedico(emailDoctor: string) {
+  addAgendaNuevoMedico(emailDoctor: any) {
     const userRef = collection(getFirestore(), 'turnos-disponibles');
     return addDoc(userRef, {
       emailDoctor: emailDoctor,
@@ -90,6 +72,15 @@ export class AppointmentsService {
         '18:00': false,'19:00': false},
         sabado: { '08:00': false, '09:00': false,'10:00': false,'11:00': false,'12:00': false,'13:00': false,'14:00': false}
       }
+    });
+  }
+
+
+  updateAgenda(emailDoctor: string, horario: any) {
+    const userDocRef = doc(getFirestore(), `turnos-disponibles/${horario.uid}`);
+    return updateDoc(userDocRef, {
+      emailDoctor: emailDoctor,
+      agenda: horario.agenda
     });
   }
 }

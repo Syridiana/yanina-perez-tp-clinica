@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -7,6 +7,7 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 import { RegisterComponent } from './Components/register/register.component';
 
@@ -35,6 +36,13 @@ import { FilterPipeSpecialty } from './Pipes/filterSpecialty.pipe';
 import { AddAppointmentComponent } from './Components/appointments/add-appointment/add-appointment.component';
 import { ProfileComponent } from './Components/profile/profile.component';
 import { ClassSelectorDirective } from './Directives/class-selector.directive';
+import { UsersComponent } from './Components/admin/users/users.component';
+import { ScheduleComponent } from './Components/schedule/schedule.component';
+import { SelectTurnoComponent } from './Components/select-turno/select-turno.component';
+import { HistoricaClinicaComponent } from './Components/historica-clinica/historica-clinica.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InformesComponent } from './Components/informes/informes.component';
+
 
 registerLocaleData(localeEsAr, 'es-Ar');
 
@@ -61,7 +69,12 @@ registerLocaleData(localeEsAr, 'es-Ar');
     FilterPipeSpecialty,
     AddAppointmentComponent,
     ProfileComponent,
-    ClassSelectorDirective
+    ClassSelectorDirective,
+    UsersComponent,
+    ScheduleComponent,
+    SelectTurnoComponent,
+    HistoricaClinicaComponent,
+    InformesComponent
   ],
   exports: [ 
     RegisterComponent
@@ -73,10 +86,13 @@ registerLocaleData(localeEsAr, 'es-Ar');
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    BrowserAnimationsModule,
+    RecaptchaModule
   ],
   providers: [
-    SpecialtiesC
+    SpecialtiesC,
+    { provide: LOCALE_ID, useValue: 'es-Ar' }
   ],
   bootstrap: [AppComponent]
 })

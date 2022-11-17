@@ -1,3 +1,7 @@
 .medic-card{
     cursor: pointer;
 }
+
+.avatar{
+    width: 50px;
+}

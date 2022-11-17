@@ -24,6 +24,9 @@
           <a class="nav-link" routerLink="admin/users" *ngIf="currentUserEmail && userType === 'admin'">Ver usuarios</a>
         </li>
         <li class="nav-item collapse-item">
+          <a class="nav-link" routerLink="admin/informes" *ngIf="currentUserEmail && userType === 'admin'">Informes</a>
+        </li>
+        <li class="nav-item collapse-item">
           <a class="nav-link" routerLink="appointments" *ngIf="currentUserEmail">Turnos</a>
         </li>
         <li class="nav-item collapse-item">

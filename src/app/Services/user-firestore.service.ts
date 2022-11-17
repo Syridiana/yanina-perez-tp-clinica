@@ -37,6 +37,14 @@ export class UserFirestoreService {
     return addDoc(userRef, user);
   }
 
+  addLoginLog(useremail: any){
+    const userRef = collection(getFirestore(), 'loginLogs');
+    return addDoc(userRef, {
+      user: useremail,
+      date: new Date()
+    });
+  }
+
   updateDoctorVerification(uid: string, verified: boolean){
     const userDocRef = doc(getFirestore(), `users-clinic/${uid}`);
     return updateDoc(userDocRef, { verified: verified });

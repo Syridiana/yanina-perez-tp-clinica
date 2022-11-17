@@ -49,19 +49,11 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-/*     this.responsive.observe(Breakpoints.Handset)
-    .subscribe(result => {
-      this.mobile = false;
-      this.burger = false;
-      if(result.matches){
-        this.mobile = true;
-        this.burger =  true;
-      }
-    }) */
+
   }
 
   openMenu() {
-/*     this.mobile = !this.mobile; */
+
   }
 
   closeMenu() {

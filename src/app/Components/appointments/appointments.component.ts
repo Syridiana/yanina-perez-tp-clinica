@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { TurnoI } from 'src/app/Entities/turno-interface';
 import { AppointmentsService } from 'src/app/Services/appointments.service';
 import { SpinnerService } from 'src/app/Services/spinner.service';
+import { UserFirestoreService } from 'src/app/Services/user-firestore.service';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -21,8 +22,12 @@ export class AppointmentsComponent implements OnInit {
   filterDoctor: string = '';
   filterPatient: string = '';
   filterSpecialty: string = '';
+  selectedPatient: any | undefined;
+  patientList: Array<any> = [];
+  currentApp: any | undefined;
 
-  constructor(private appSvc: AppointmentsService, private angularFireAuth: AngularFireAuth, private spinnerService: SpinnerService) {
+  constructor(private appSvc: AppointmentsService, private angularFireAuth: AngularFireAuth, private spinnerService: SpinnerService,
+    private userFirestoreService: UserFirestoreService) {
     this.spinnerService.show();
 
     this.angularFireAuth.onAuthStateChanged((user) => {
@@ -40,6 +45,13 @@ export class AppointmentsComponent implements OnInit {
             this.userAppList = this.appList?.filter(u => u.patientEmail === this.currentUserEmail);
           }
         }
+        this.spinnerService.hide();
+      })
+
+      this.userFirestoreService.getUsers().subscribe(users => {
+        this.spinnerService.show();
+        this.patientList = users;
+        this.currentUser = this.patientList?.filter(u => u.email === this.currentUserEmail);
         this.spinnerService.hide();
       })
       
@@ -98,5 +110,27 @@ export class AppointmentsComponent implements OnInit {
     if (qualifcation) {
       this.appSvc.addQualification(appUid, qualifcation);
     }
+  }
+
+
+  accept(e: any){
+    let appUid = e.target.getAttribute('data-appointment-uid');
+    let appointment = this.appList?.find(u => u.uid === appUid);
+
+    this.appSvc.changeAppointmentState(appointment?.uid, 'aceptado')
+  }
+
+  reject(e: any){
+    let appUid = e.target.getAttribute('data-appointment-uid');
+    let appointment = this.appList?.find(u => u.uid === appUid);
+
+    this.appSvc.changeAppointmentState(appointment?.uid, 'rechazado')
+  }
+
+
+  async close(e: any){
+    let appUid = e.target.getAttribute('data-appointment-uid');
+    this.currentApp = this.appList?.find(u => u.uid === appUid);
+    this.selectedPatient = this.patientList?.filter(u => u.email === this.currentApp?.patientEmail);
   }
 }

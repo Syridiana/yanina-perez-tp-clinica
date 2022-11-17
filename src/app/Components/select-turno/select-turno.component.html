@@ -1,0 +1,14 @@
+<div class="position-sticky pt-3">
+    <br><br><br><br>
+    <h3>Seleccione Turno</h3>
+    <br><br>
+    <ul class="container">
+      <li class="nav-item" *ngFor="let app of currentSchedule">
+        <div  class="btn btn-primary" (click)="selectApp(app)">
+          {{app.date | date:'EEEE dd MMMM' | titlecase }}
+          <br>
+          {{app.hour}}hs
+        </div>
+      </li>
+    </ul>
+  </div>

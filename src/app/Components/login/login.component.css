@@ -26,3 +26,24 @@
 .avatar{
 	height: 50px;
 }
+
+.wrapperLogin{
+	display: flex;
+}
+
+.buttonWrapper{
+	display: flex!important;
+	flex-direction: column!important;
+	justify-content: space-around!important;
+	padding: 20px!important;
+}
+
+.buttonImg{
+	width: 30px;
+	border-radius: 50%;
+	margin-right: 7px;
+}
+
+.btn{
+	text-align: left!important;
+}

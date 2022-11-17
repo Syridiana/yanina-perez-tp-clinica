@@ -1,10 +1,11 @@
 Elija su Especialidad
 <br>
 <br>
-<button type="button" class="row" *ngFor="let spe of specialties" value="{{spe}}" (click)="selectSpecialty($event)">
+<button type="button" class="btn btn-info" *ngFor="let spe of specialties" value="{{spe}}" (click)="selectSpecialty($event)">
   {{spe}}
 </button>
-<br>
+<br><br>
 Agregar Especialidad
 <input type="text" [(ngModel)]="newSpecialty">
+<br>
 <button type="button" class="btn btn-warning btn-md ms-2" appSeasonsHover (click)="addNewSpecialty()">Agregar</button>

@@ -1,0 +1,169 @@
+<section class="h-100">
+    <form class="container py-5 h-100" [formGroup]="historiaClinicaForm" (ngSubmit)="register()">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-6">
+          <div class="card card-registration my-4">
+            <div class="row g-0">
+              <div class="login">
+                <div class="card-body p-md-5 text-black">
+                  <h3 class="mb-5 text-uppercase">Historia Clínca de {{selectedPatient.name}} {{selectedPatient.lastName}}</h3>
+  
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input id="form3Example1m" class="form-control form-control-md" type="text" formControlName="altura"/>
+                        <label class="form-label" for="form3Example1m">Altura</label>
+                        <span class="text-danger form-small-text" *ngIf="historiaClinicaForm.get('altura')?.hasError('required') && historiaClinicaForm.get('altura')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input  id="form3Example1n" class="form-control form-control-md" type="text" formControlName="peso"/>
+                        <label class="form-label" for="form3Example1n">Peso</label>
+                        <span class="text-danger form-small-text" *ngIf="historiaClinicaForm.get('peso')?.hasError('required') && historiaClinicaForm.get('peso')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input id="form3Example1m1" class="form-control form-control-md" type="text" formControlName="temperatura"/>
+                        <label class="form-label" for="form3Example1m1">Temperatura</label>
+                        <span class="text-danger form-small-text" *ngIf="historiaClinicaForm.get('temperatura')?.hasError('required') && historiaClinicaForm.get('temperatura')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input id="form3Example1n1" class="form-control form-control-md" type="text" formControlName="presion"/>
+                        <label class="form-label" for="form3Example1n1">Presion</label>
+                        <span class="text-danger form-small-text" *ngIf="historiaClinicaForm.get('presion')?.hasError('required') && historiaClinicaForm.get('presion')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+<br><br>
+                  <div class="row">
+                  <table class="form-outline" formArrayName="data">  
+                    <tr>  
+                      <th><button type="button" (click)="addField()" class="btn btn-primary">Agregar Campo</button></th>  
+                    </tr>  
+                    <tr *ngFor="let dato of data().controls; let i=index" [formGroupName]="i">  
+                      <td>  
+                          Titulo:  
+                          <input type="text" formControlName="titulo" class="form-control">  
+                      </td>  
+                      <td>  
+                          Valor:  
+                          <input type="text" formControlName="valor" class="form-control">  
+                      </td>  
+                      <td>  
+                          <button (click)="removeField(i)" class="btn btn-danger">Borrar</button>  
+                      </td>  
+                    </tr>  
+                  </table>  
+                  </div>
+  
+<!--                   <div class="row">
+                    <div class="col-md-6 mb-2" *ngIf="this.typeOfUser === 'patient'">
+                      <div class="form-outline">
+                        <input type="text" id="form3Example8" class="form-control form-control-md" formControlName="healthInsurance"/>
+                        <label class="form-label" for="form3Example8">Obra Social</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('healthInsurance')?.hasError('required') && userRegister.get('healthInsurance')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input id="form3Example9" class="form-control form-control-md" type="email" formControlName="email" />
+                        <label class="form-label" for="form3Example9">Email</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('email')?.hasError('required') && userRegister.get('email')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('email')?.hasError('email') && userRegister.get('email')?.touched">
+                          -- Formato invalido.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input id="form3Example90" class="form-control form-control-md" type="password" formControlName="password"/>
+                    <label class="form-label" for="form3Example90">Contraseña</label>
+                    <span class="text-danger form-small-text" *ngIf="userRegister.get('password')?.hasError('required') && userRegister.get('password')?.touched">
+                      -- Este campo es requerido.
+                    </span>
+                    <span class="text-danger form-small-text" *ngIf="userRegister.get('password')?.hasError('minlength') && userRegister.get('password')?.touched">
+                      -- Su contraseña debe tener al menos 6 caracteres.
+                    </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input class="form-control form-control-md" type="password" formControlName="passwordRepeat"/>
+                        <label class="form-label" for="form3Example99">Repetir contraseña</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('password')?.hasError('required') && userRegister.get('password')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-2">
+                      <div class="form-outline">
+                        <input class="form-control form-control-md" type="file" formControlName="photo_1" accept=".png,.jpg" name="photo_1" 
+                        (change)="encodeImage_1($event)"/>
+                        <img src="{{photo_1}}" alt="" *ngIf="photo_1" class="photo">
+                    <label class="form-label" for="form3Example90">Imagen de perfil</label>
+                    <span class="text-danger form-small-text" *ngIf="userRegister.get('photo_1')?.hasError('required') && userRegister.get('photo_1')?.touched">
+                      -- Este campo es requerido.
+                    </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2" *ngIf="this.typeOfUser === 'patient'">
+                      <div class="form-outline">
+                        <input  class="form-control form-control-md" type="file" formControlName="passwordRepeat" accept=".png,.jpg" name="photo_2"
+                        (change)="encodeImage_2($event)"/>
+                        <img src="{{photo_2}}" alt="" *ngIf="photo_2" class="photo">
+                        <label class="form-label" for="form3Example99">Imagen de perfil 2</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('photo_2')?.hasError('required') && userRegister.get('photo_2')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-2" *ngIf="this.typeOfUser === 'doctor'">
+                      <div class="form-outline">
+                        <input class="form-control form-control-md" type="text" formControlName="specialty" />
+                        <label class="form-label" for="form3Example99">Especialidad</label>
+                        <span class="text-danger form-small-text" *ngIf="userRegister.get('specialty')?.hasError('required') && userRegister.get('specialty')?.touched">
+                          -- Este campo es requerido.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+   -->
+                  <div class="d-flex justify-content-end pt-3">
+                    <button class="btn btn-warning btn-md ms-2" type="submit">Enviar</button>
+                  </div>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<!--         <div class="col-sm-2" *ngIf="this.typeOfUser === 'doctor'">        
+          <app-speciality-list (emitSpecialty)="addSpecialty($event)"></app-speciality-list>
+        </div> -->
+      </div>
+    </form>
+  </section>

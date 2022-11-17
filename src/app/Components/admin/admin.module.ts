@@ -4,14 +4,12 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UsersComponent } from './users/users.component';
-import { RegisterComponent } from '../register/register.component';
 
 
 
 @NgModule({
   declarations: [
-    CreateUserComponent,
-    UsersComponent
+    CreateUserComponent
   ],
   imports: [
     CommonModule,

@@ -21,6 +21,7 @@ import { FirebaseCodeErrorService } from 'src/app/Services/firebase-code-error.s
 import { AuthService } from 'src/app/Services/auth.service';
 
 import { AngularFireStorage/* , AngularFireStorageReference, AngularFireUploadTask  */ } from '@angular/fire/compat/storage';
+import { AppointmentsService } from 'src/app/Services/appointments.service';
 
 
 
@@ -68,8 +69,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private specialtyC: SpecialtiesC, private afAuth: AngularFireAuth,
     private router: Router, private FirebaseCodeError: FirebaseCodeErrorService,
-    private userFirestoreService: UserFirestoreService, private authService: AuthService/* , 
-    private afStorage: AngularFireStorage */) {
+    private userFirestoreService: UserFirestoreService, private authService: AuthService,
+    private appService: AppointmentsService) {
 
     this.specialities = specialtyC.getSpecialtiesList();
 
@@ -170,6 +171,9 @@ export class RegisterComponent implements OnInit {
         if (this.typeOfUser === 'patient') {
           this.authService.sendEmailVerification();
           this.router.navigate(['/verification']);
+        } else if(this.typeOfUser === 'doctor') {
+          this.appService.addAgendaNuevoMedico(this.email)
+          this.router.navigate(['/']);
         } else {
           this.router.navigate(['/']);
         }
@@ -221,6 +225,7 @@ export class RegisterComponent implements OnInit {
   }
 
   async encodeImage_1(e: any) {
+
     if (e.target.files.length > 0) {
       this.file_1 = e.target.files[0];
     }

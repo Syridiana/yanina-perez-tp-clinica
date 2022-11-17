@@ -23,6 +23,8 @@ import { UserFirestoreService } from 'src/app/Services/user-firestore.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  captcha: string;
+
   typeOfUser = 'patient';
   typeOfUserDisplay = 'Paciente';
   typeOfUserDisplayOther = 'Médico';
@@ -51,6 +53,7 @@ export class LoginComponent implements OnInit {
     private afAuth: AngularFireAuth,
     private router: Router, private FirebaseCodeError: FirebaseCodeErrorService,
     private userFirestoreService: UserFirestoreService) {
+      this.captcha = '';
 
     this.specialities = specialty.getSpecialtiesList();
 
@@ -130,10 +133,12 @@ export class LoginComponent implements OnInit {
           this.currentUser = undefined;
           throw new Error('Usuario no habilitado. Comuniquese con el administrador');
         } else {
+          this.userFirestoreService.addLoginLog(this.email);
           this.router.navigate(['/']);
         }
       } else if (aUser?.type === 'patient') {
         if (user && user.user?.emailVerified) {
+          this.userFirestoreService.addLoginLog(this.email);
           this.router.navigate(['/']);
         } else if (user) {
           this.router.navigate(['/verification']);
@@ -143,6 +148,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/register']);
         throw new Error('Usuario sin registrar. Por favor registre su usuario');
       } else {
+        this.userFirestoreService.addLoginLog(this.email);
         this.router.navigate(['/']);
       }
 
@@ -180,9 +186,6 @@ export class LoginComponent implements OnInit {
   }
 
 
-  /*   setUser(user: any) {
-      localStorage.setItem('testObject', JSON.stringify(user));
-    } */
 
   autoCompleteAdmin(): void {
     this.userLogin.controls['email'].setValue("admin1@admin.com");
@@ -194,8 +197,23 @@ export class LoginComponent implements OnInit {
     this.userLogin.controls['password'].setValue("123456");
   }
 
+  autoCompletePatient2(): void {
+    this.userLogin.controls['email'].setValue("nvoqztkzkooyvtgsdr@tmmwj.net");
+    this.userLogin.controls['password'].setValue("123456");
+  }
+  
+  autoCompletePatient3(): void {
+    this.userLogin.controls['email'].setValue("ztsrjcqggbvgnkvyrz@tmmcv.net");
+    this.userLogin.controls['password'].setValue("123456");
+  }
+
   autoCompleteDoctor1(): void {
     this.userLogin.controls['email'].setValue("doctor1@doctor.com");
+    this.userLogin.controls['password'].setValue("123456");
+  }
+
+  autoCompleteDoctor2(): void {
+    this.userLogin.controls['email'].setValue("doctor2@doctor.com");
     this.userLogin.controls['password'].setValue("123456");
   }
 
@@ -209,6 +227,10 @@ export class LoginComponent implements OnInit {
       this.typeOfUserDisplay = 'Paciente';
       this.typeOfUserDisplayOther = 'Médico';
     }
+  }
+
+  resolvedCaptcha(captchaResponse: string){
+    this.captcha = captchaResponse;
   }
 
 }

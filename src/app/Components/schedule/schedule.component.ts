@@ -1,24 +1,20 @@
-import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { ClassSelectorDirective } from 'src/app/Directives/class-selector.directive';
 import HorarioI from 'src/app/Entities/horario-interface';
 import { UserI } from 'src/app/Entities/user-interface';
 import { AppointmentsService } from 'src/app/Services/appointments.service';
 import { SpinnerService } from 'src/app/Services/spinner.service';
 import { UserFirestoreService } from 'src/app/Services/user-firestore.service';
-import { SpinnerComponent } from '../shared/spinner/spinner.component';
+import { AppointmentsComponent } from '../appointments/appointments.component';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
+  styleUrls: ['./schedule.component.css']
 })
-export class ProfileComponent implements OnInit {
-  public currentUserEmail: any;
-  public currentUserName!: any | null;
-  public currentUser!: any | null;
+export class ScheduleComponent implements OnInit {
+  @Input() doctorEmail: any;
   public currentUserHorario: any | null;
-  public currentUserLastName!: any | null;
   public userType: string | any;
   usersArray: UserI[] | undefined;
   horariosArray: HorarioI[] | undefined;
@@ -38,36 +34,10 @@ export class ProfileComponent implements OnInit {
     private userFirestoreService: UserFirestoreService, private appService: AppointmentsService,
     private el: ElementRef, private renderer: Renderer2, private spinnerService: SpinnerService) {
     this.spinnerService.show();
-
-    this.afauth.onAuthStateChanged((user) => {
-      if (user) {
-        this.currentUserEmail = user.email;
-      } else {
-        this.currentUserEmail = "";
-        this.userType = "";
-      }
-      this.userFirestoreService.getUsers().subscribe(users => {
-        this.usersArray = users;
-        this.currentUser = this.usersArray?.find(u => u.email === this.currentUserEmail);
-        this.userType = this.currentUser?.type;
-        this.currentUserName = this.currentUser?.name;
-        this.currentUserLastName = this.currentUser?.lastName;
-
-        localStorage.setItem('currentUserType', this.userType);
-      })
-
-
-    })
-
-    this.userFirestoreService.getUsers().subscribe(users => {
-      this.usersArray = users;
-      this.spinnerService.hide();
-    })
-
     
     this.appService.getHorarios().subscribe(horarios => {
       this.horariosArray = horarios;
-      this.currentUserHorario = this.horariosArray?.find(u => u.emailDoctor === this.currentUserEmail);
+      this.currentUserHorario = this.horariosArray?.find(u => u.emailDoctor === this.doctorEmail);
 
       this.currentUserConfirmedAgenda = this.currentUserHorario?.agenda;
 
@@ -120,7 +90,7 @@ export class ProfileComponent implements OnInit {
     let day = e.target.parentNode.parentNode.className;
     let hour = e.target.textContent;
     this.currentUserHorario.agenda[`${day}`][`${hour}`] = !this.currentUserHorario.agenda[`${day}`][`${hour}`];
-    this.appService.updateAgenda(this.currentUserEmail, this.currentUserHorario);
+    this.appService.updateAgenda(this.doctorEmail, this.currentUserHorario);
   }
 
 

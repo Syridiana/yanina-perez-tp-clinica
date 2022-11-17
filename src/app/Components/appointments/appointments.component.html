@@ -64,14 +64,19 @@
                     Cancelar turno</button></td>
                 <td><button class="btn btn-primary" *ngIf="appoint.review" (click)="showReview($event)" [attr.data-appointment-uid]="appoint.uid">Ver reseña</button></td>
                 <td><button class="btn btn-primary" *ngIf="appoint.review && appoint.state == 'realizado'">Completar encuesta</button></td>
-                <td><button class="btn btn-primary" *ngIf="appoint.state == 'realizado'" (click)="qualify($event)" [attr.data-appointment-uid]="appoint.uid" >Calificar atención</button></td>
-                <td><button class="btn btn-warning" *ngIf="currentUserType == 'doctor' && appoint.state == 'pendiente'">Rechazar</button></td>
-                <td><button class="btn btn-warning" *ngIf="currentUserType == 'doctor' && appoint.state == 'pendiente'">Aceptar</button></td>
-                <td><button class="btn btn-warning" *ngIf="currentUserType == 'doctor' && appoint.state == 'aceptado'">Finalizar</button></td>
+                <td><button class="btn btn-primary" *ngIf="appoint.state == 'realizado' && !(currentUserType == 'doctor')" (click)="qualify($event)" [attr.data-appointment-uid]="appoint.uid" >Calificar atención</button></td>
+                <td><button class="btn btn-warning" [attr.data-appointment-uid]="appoint.uid" 
+                  *ngIf="currentUserType == 'doctor' && appoint.state == 'pendiente'" (click)="reject($event)">Rechazar</button></td>
+                <td><button class="btn btn-warning" [attr.data-appointment-uid]="appoint.uid"
+                   *ngIf="currentUserType == 'doctor' && appoint.state == 'pendiente'" (click)="accept($event)">Aceptar</button></td>
+                <td><button class="btn btn-warning" [attr.data-appointment-uid]="appoint.uid"
+                   *ngIf="currentUserType == 'doctor' && appoint.state == 'aceptado'" (click)="close($event)">Finalizar</button></td>
               </tr>
             </tbody>
           </table>
         </div>
+        <app-historica-clinica *ngIf="selectedPatient" [selectedPatient]="selectedPatient[0]" [currentApp]="currentApp"
+        [specialty]="currentUser[0].specialty" [doctorEmail]="currentUserEmail"></app-historica-clinica>
       </main>
     </div>
   </div>

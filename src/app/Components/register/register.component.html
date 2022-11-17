@@ -105,6 +105,7 @@
                     <div class="form-outline">
                       <input class="form-control form-control-md" type="file" formControlName="photo_1" accept=".png,.jpg" name="photo_1" 
                       (change)="encodeImage_1($event)"/>
+                      <img src="{{photo_1}}" alt="" *ngIf="photo_1" class="photo">
                   <label class="form-label" for="form3Example90">Imagen de perfil</label>
                   <span class="text-danger form-small-text" *ngIf="userRegister.get('photo_1')?.hasError('required') && userRegister.get('photo_1')?.touched">
                     -- Este campo es requerido.
@@ -115,6 +116,7 @@
                     <div class="form-outline">
                       <input  class="form-control form-control-md" type="file" formControlName="passwordRepeat" accept=".png,.jpg" name="photo_2"
                       (change)="encodeImage_2($event)"/>
+                      <img src="{{photo_2}}" alt="" *ngIf="photo_2" class="photo">
                       <label class="form-label" for="form3Example99">Imagen de perfil 2</label>
                       <span class="text-danger form-small-text" *ngIf="userRegister.get('photo_2')?.hasError('required') && userRegister.get('photo_2')?.touched">
                         -- Este campo es requerido.
@@ -145,16 +147,6 @@
       </div>
       <div class="col-sm-2" *ngIf="this.typeOfUser === 'doctor'">        
         <app-speciality-list (emitSpecialty)="addSpecialty($event)"></app-speciality-list>
-<!--         Elija su Especialidad
-        <br>
-        <br>
-        <button class="row" *ngFor="let spe of specialities" value="{{spe}}">
-          {{spe}}
-        </button>
-        <br>
-        Agregar Especialidad
-        <input type="text">
-        <button type="button" class="btn btn-warning btn-md ms-2" appSeasonsHover>Agregar</button> -->
       </div>
     </div>
   </form>

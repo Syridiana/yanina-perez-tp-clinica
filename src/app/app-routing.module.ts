@@ -13,10 +13,10 @@ import { ProfileComponent } from './Components/profile/profile.component';
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/']);
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'verification', component: VerificationEmailComponent },
+  { path: '', component: HomeComponent, data: { animation: 'isRight' } },
+  { path: 'register', component: RegisterComponent, data: { animation: 'isRight' } },
+  { path: 'login', component: LoginComponent, data: { animation: 'isRight' } },
+  { path: 'verification', component: VerificationEmailComponent, data: { animation: 'isRight' } },
   {
     path: 'admin',
     loadChildren: () => import('../app/Components/admin/admin-routing.module')
@@ -24,9 +24,9 @@ const routes: Routes = [
     canActivate: [AdminGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
-  { path: 'appointments', component: AppointmentsComponent },
-  { path: 'addAppointment', component: AddAppointmentComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'appointments', component: AppointmentsComponent, data: { animation: 'isRight' } },
+  { path: 'addAppointment', component: AddAppointmentComponent, data: { animation: 'isRight' } },
+  { path: 'profile', component: ProfileComponent, data: { animation: 'isRight' } }
 ];
 
 @NgModule({
