@@ -41,7 +41,8 @@ import { ScheduleComponent } from './Components/schedule/schedule.component';
 import { SelectTurnoComponent } from './Components/select-turno/select-turno.component';
 import { HistoricaClinicaComponent } from './Components/historica-clinica/historica-clinica.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InformesComponent } from './Components/informes/informes.component';
+import { InformesComponent } from './Components/admin/informes/informes.component';
+import { MyChartComponent } from './utils/my-chart/my-chart.component';
 
 
 registerLocaleData(localeEsAr, 'es-Ar');
@@ -74,7 +75,8 @@ registerLocaleData(localeEsAr, 'es-Ar');
     ScheduleComponent,
     SelectTurnoComponent,
     HistoricaClinicaComponent,
-    InformesComponent
+    InformesComponent,
+    MyChartComponent
   ],
   exports: [ 
     RegisterComponent

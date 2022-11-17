@@ -5,7 +5,7 @@
   },
   "hosting": {
     "target": "yanina-perez-clinica",
-    "public": "dist",
+    "public": "dist/yanina-perez-clinica",
     "ignore": [
       "firebase.json",
       "**/.*",

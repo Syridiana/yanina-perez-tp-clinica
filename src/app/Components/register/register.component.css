@@ -26,3 +26,9 @@
 .photo{
 	width: 170px;
 }
+
+.custom{
+	flex-direction: column!important;
+	width: 40%;
+	gap: 5px;
+}

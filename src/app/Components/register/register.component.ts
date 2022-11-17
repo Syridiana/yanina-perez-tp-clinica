@@ -120,8 +120,7 @@ export class RegisterComponent implements OnInit {
     this.healthInsurance = this.userRegister.value.healthInsurance;
 
 
-
-    if (this.password !== this.passwordRepeat) {
+    if (this.password != this.passwordRepeat) {
 
       Swal.fire({
         title: 'Error!',
@@ -259,7 +258,194 @@ export class RegisterComponent implements OnInit {
 
     })
   }
-  
+
+  autoRegisterPatient(){
+    this.email = 'patient3@patient.com';
+    this.password = '123456';
+    this.passwordRepeat = '123456';
+    this.name = 'Jose';
+    this.lastName = 'Gimenez';
+    this.age = '51';
+    this.id = '6546644';
+    this.specialty = '';
+    this.healthInsurance = 'OSDE';
+    this.typeOfUser = 'patient';
+
+    
+
+    if (this.password != this.passwordRepeat) {
+
+      Swal.fire({
+        title: 'Error!',
+        text: "Las contraseñas no coindicen",
+        icon: 'error',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        background: "#ff3030",
+        iconColor: "#fff",
+        color: "#fff"
+      })
+
+    } else {
+      this.afAuth.createUserWithEmailAndPassword(this.email!, this.password!).then((user) => {
+
+        Swal.fire({
+          title: 'Usuario registrado',
+          text: "Usuario registrado con éxito",
+          icon: 'success',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          background: "#00af00",
+          iconColor: "#fff",
+          color: "#fff"
+        })
+
+
+
+        this.userFirestoreService.addUser({
+          'type': this.typeOfUser,
+          'email': this.email,
+          'name': this.name,
+          'lastName': this.lastName,
+          'age': this.age,
+          'id': this.id,
+          'specialty': this.specialty,
+          'healthInsurance': this.healthInsurance,
+          'photo_1': this.photo_1,
+          'photo_2': this.photo_2,
+          'verified': false
+        });// TODO - Make a function to handle this
+
+        if (this.typeOfUser === 'patient') {
+          this.authService.sendEmailVerification();
+          this.router.navigate(['/verification']);
+        } else if(this.typeOfUser === 'doctor') {
+          this.appService.addAgendaNuevoMedico(this.email)
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/']);
+        }
+
+
+
+      }).catch((error) => {
+        console.log(error)
+
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          background: "#ff3030",
+          iconColor: "#fff",
+          color: "#fff"
+        })
+
+      });
+    }
+
+  }
+
+  autoRegisterDoctor(){
+    this.email = 'doctor3@doctor.com';
+    this.password = '123456';
+    this.passwordRepeat = '123456';
+    this.name = 'Jose';
+    this.lastName = 'Lopez';
+    this.age = '50';
+    this.id = '6546645';
+    this.specialty = 'Odontología';
+    this.healthInsurance = '';
+    this.typeOfUser = 'doctor';
+
+    
+
+    if (this.password != this.passwordRepeat) {
+
+      Swal.fire({
+        title: 'Error!',
+        text: "Las contraseñas no coindicen",
+        icon: 'error',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        background: "#ff3030",
+        iconColor: "#fff",
+        color: "#fff"
+      })
+
+    } else {
+      this.afAuth.createUserWithEmailAndPassword(this.email!, this.password!).then((user) => {
+
+        Swal.fire({
+          title: 'Usuario registrado',
+          text: "Usuario registrado con éxito",
+          icon: 'success',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          background: "#00af00",
+          iconColor: "#fff",
+          color: "#fff"
+        })
+
+
+
+        this.userFirestoreService.addUser({
+          'type': this.typeOfUser,
+          'email': this.email,
+          'name': this.name,
+          'lastName': this.lastName,
+          'age': this.age,
+          'id': this.id,
+          'specialty': this.specialty,
+          'healthInsurance': this.healthInsurance,
+          'photo_1': this.photo_1,
+          'photo_2': this.photo_2,
+          'verified': false
+        });// TODO - Make a function to handle this
+
+        if (this.typeOfUser === 'patient') {
+          this.authService.sendEmailVerification();
+          this.router.navigate(['/verification']);
+        } else if(this.typeOfUser === 'doctor') {
+          this.appService.addAgendaNuevoMedico(this.email)
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/']);
+        }
+
+
+
+      }).catch((error) => {
+        console.log(error)
+
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          background: "#ff3030",
+          iconColor: "#fff",
+          color: "#fff"
+        })
+
+      });
+    }
+
+  }
 
 }
 
