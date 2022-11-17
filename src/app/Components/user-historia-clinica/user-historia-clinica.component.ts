@@ -7,7 +7,8 @@ import { HistoriaClinicaService } from 'src/app/Services/historia-clinica.servic
   styleUrls: ['./user-historia-clinica.component.css']
 })
 export class UserHistoriaClinicaComponent implements OnInit {
-  @Input() userEmail: any;
+  @Input() userEmail: string;
+  @Input() doctorName: string;
   historias: Array<any> | undefined;
 
   constructor(private historiaSvc: HistoriaClinicaService) {

@@ -14,6 +14,7 @@ export class HistoricaClinicaComponent implements OnInit {
   @Input() currentApp: any | undefined;
   @Input() specialty: any | undefined;
   @Input() doctorEmail: any | undefined;
+  @Input() doctorName: any | undefined;
 
     // Forms
     historiaClinicaForm: FormGroup;
@@ -68,7 +69,9 @@ export class HistoricaClinicaComponent implements OnInit {
         data: this.historiaClinicaForm.value.data,
         patientEmail: this.selectedPatient.email,
         specialty: this.specialty,
-        doctorEmail: this.doctorEmail
+        doctorEmail: this.doctorEmail,
+        date: new Date(),
+        doctorName: this.doctorName
       })
 
       this.appSvc.changeAppointmentState(this.currentApp?.uid, 'realizado');

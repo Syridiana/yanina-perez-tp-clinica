@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { TurnoI } from 'src/app/Entities/turno-interface';
 import { AppointmentsService } from 'src/app/Services/appointments.service';
@@ -52,6 +52,7 @@ export class AppointmentsComponent implements OnInit {
         this.spinnerService.show();
         this.patientList = users;
         this.currentUser = this.patientList?.filter(u => u.email === this.currentUserEmail);
+        this.currentUserName = this.patientList?.filter(u => u.email === this.currentUserEmail);
         this.spinnerService.hide();
       })
       
